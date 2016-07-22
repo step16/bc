@@ -6,11 +6,11 @@ files/objects involved. So we're using [Bazel](http://www.bazel.io/)
 
 Either
 
-1. [download and install Bazel](http://www.bazel.io/docs/install.html)
++ [download and install Bazel](http://www.bazel.io/docs/install.html)
 
 or
 
-2. Use the [class VM](https://docs.google.com/document/d/19xACeeHjvuDsMYrXtZuEoA8z2PFth51-vqQYkYTVDdY/edit) to run Bazel.
++ Use the [class VM](https://docs.google.com/document/d/19xACeeHjvuDsMYrXtZuEoA8z2PFth51-vqQYkYTVDdY/edit) to run Bazel.
 
   * The latest version has been updated to include Bazel if you
     want to download it now.
@@ -18,6 +18,8 @@ or
   * You can use
     [VitualBox](https://www.virtualbox.org/wiki/Downloads) on
     Mac OS X too!
+
+# Using Bazel
 
 * To run tests
 
