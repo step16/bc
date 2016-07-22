@@ -1,0 +1,233 @@
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script type='text/javascript'>
+	document.ANALYSIS_DATA = ;
+	document.CALLGRAPH = ;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "."</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				
+			</div>
+		</div>
+		
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+				<dd><a href="#pkg-variables">Variables</a></dd>
+			
+			
+			
+				
+				<dd><a href="#AddressBook">type AddressBook</a></dd>
+				
+				
+			
+				
+				<dd><a href="#Contact">type Contact</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Contact.Less">func (c1 Contact) Less(c2 Contact) bool</a></dd>
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h4>Package files</h4>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="/src/target/addressbook.go">addressbook.go</a>
+			
+				<a href="/src/target/addressbook_impl.go">addressbook_impl.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		<div id="pkg-callgraph" class="toggle" style="display: none">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Internal Call Graph section">Internal call graph ▹</h2>
+		</div> <!-- .expanded -->
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Internal Call Graph section">Internal call graph ▾</h2>
+			<p>
+			  In the call graph viewer below, each node
+			  is a function belonging to this package
+			  and its children are the functions it
+			  calls&mdash;perhaps dynamically.
+			</p>
+			<p>
+			  The root nodes are the entry points of the
+			  package: functions that may be called from
+			  outside the package.
+			  There may be non-exported or anonymous
+			  functions among them if they are called
+			  dynamically from another package.
+			</p>
+			<p>
+			  Click a node to visit that function's source code.
+			  From there you can visit its callers by
+			  clicking its declaring <code>func</code>
+			  token.
+			</p>
+			<p>
+			  Functions may be omitted if they were
+			  determined to be unreachable in the
+			  particular programs or tests that were
+			  analyzed.
+			</p>
+			<!-- Zero means show all package entry points. -->
+			<ul style="margin-left: 0.5in" id="callgraph-0" class="treeview"></ul>
+		</div>
+		</div> <!-- #pkg-callgraph -->
+
+		
+		
+			<h2 id="pkg-variables">Variables</h2>
+			
+				<pre>var <span id="New">New</span> func() <a href="#AddressBook">AddressBook</a></pre>
+				<p>
+New creates a new AddressBook. This should be set to a function
+that returns a value that implements AddressBook.
+</p>
+
+			
+		
+		
+		
+			
+			
+			<h2 id="AddressBook">type <a href="/src/target/addressbook.go?s=220:1153#L1">AddressBook</a></h2>
+			<pre>type AddressBook interface {
+    <span class="comment">// Insert inserts the specified contact into the address book.  If</span>
+    <span class="comment">// there&#39;s already a contact with the same name or email, the</span>
+    <span class="comment">// insertion fails and false is returned.</span>
+    Insert(<a href="#Contact">Contact</a>) <a href="/pkg/builtin/#bool">bool</a>
+
+    <span class="comment">// FindName looks up a contact by the specified name.  If no such</span>
+    <span class="comment">// name is found, it returns nil. The pointer returned may be to a</span>
+    <span class="comment">// copy of the original.</span>
+    FindName(<a href="/pkg/builtin/#string">string</a>) *<a href="#Contact">Contact</a>
+
+    <span class="comment">// FindEmail looks up a contact by the specified email address.  If</span>
+    <span class="comment">// no such email address is found, it returns nil. The pointer</span>
+    <span class="comment">// returned may be to a copy of the original.</span>
+    FindEmail(<a href="/pkg/builtin/#string">string</a>) *<a href="#Contact">Contact</a>
+
+    <span class="comment">// FindNext returns a pointer to the contact that comes</span>
+    <span class="comment">// lexicographically after the given contact. It returns nil if</span>
+    <span class="comment">// there are no more contacts.</span>
+    FindNext(<a href="#Contact">Contact</a>) *<a href="#Contact">Contact</a>
+
+    <span class="comment">// Delete deletes the specified contact. Returns true iff the given</span>
+    <span class="comment">// contact was actually deleted.</span>
+    Delete(<a href="#Contact">Contact</a>) <a href="/pkg/builtin/#bool">bool</a>
+}</pre>
+			<p>
+AddressBook provides functions to insert, search, and delete
+contacts.
+</p>
+
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Contact">type <a href="/src/target/addressbook.go?s=98:141#L1">Contact</a></h2>
+			<pre>type Contact struct {
+    Name, Email <a href="/pkg/builtin/#string">string</a>
+}</pre>
+			<p>
+Contact describes an individual contact with a Name and Email
+address.
+</p>
+
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="Contact.Less">func (Contact) <a href="/src/target/addressbook.go?s=1416:1455#L33">Less</a></h3>
+				<pre>func (c1 <a href="#Contact">Contact</a>) Less(c2 <a href="#Contact">Contact</a>) <a href="/pkg/builtin/#bool">bool</a></pre>
+				<p>
+Less defines a lexicographical order over contacts where contacts
+are sorted first by Name, then by Email.
+</p>
+
+				
+				
+				
+			
+		
+	
+
+	
+
+
+
+
+
