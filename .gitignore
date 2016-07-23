@@ -2,3 +2,5 @@
 *#*
 bazel-*
 *.o
+rust/target
+rust/Cargo.lock
