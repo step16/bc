@@ -19,7 +19,7 @@ TEST_F(AddressBookTest, Single) {
 	EXPECT_EQ(nullptr, book_->FindName("Arthur Dent"));
 	EXPECT_TRUE(book_->Insert(Contact("Arthur Dent", "adent@cottington")));
 	// insertion should only work once.
-	EXPECT_FALSE(book_->Insert(Contact("Arthur Dent", "adent@cottington")));
+	EXPECT_FALSE(book_->Insert(Contact("Arthur Dent", "adent@demolished")));
 	const Contact *contact = book_->FindName("Arthur Dent");
 	ASSERT_NE(nullptr, contact);
 	EXPECT_EQ("Arthur Dent", contact->name());
@@ -48,4 +48,3 @@ TEST_F(AddressBookTest, NextDeleted) {
 	ASSERT_NE(nullptr, contact);
 	ASSERT_EQ(nullptr, book_->FindNext(*contact));
 }
-

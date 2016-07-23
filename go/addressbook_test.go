@@ -101,9 +101,11 @@ func TestFindNext(t *testing.T) {
 // Benchmarks
 
 func fakeContact(i int) Contact {
+	r := rand.New(rand.NewSource(int64(i)))
+	x := r.Int()
 	return Contact{
-		Name:  fmt.Sprintf("Fake Name %d", i),
-		Email: fmt.Sprintf("Fake-%d@email", i),
+		Name:  fmt.Sprintf("Fake %d Name %d", x, i),
+		Email: fmt.Sprintf("Fake-%d-%d@email", x, i),
 	}
 }
 
