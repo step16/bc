@@ -4,5 +4,6 @@
 
 * To run tests just run from this directory:
 
-    go test -bench . *.go
+    go test -bench . -benchmem *.go
 
+* You can leave off -benchmem if you don't care about memory.
