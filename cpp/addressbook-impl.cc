@@ -1,6 +1,6 @@
 #include "addressbook-impl.h"
 
-using namespace::std;
+using namespace ::std;
 
 // To STEP students:
 // Write this file!
