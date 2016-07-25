@@ -1,4 +1,8 @@
+#![feature(btree_range, collections_bound)]
+
+use std::collections::Bound::{Excluded, Unbounded};
 use std::collections::BTreeMap;
+use std::collections::btree_map::Entry::{Occupied, Vacant};
 
 #[derive(Debug, Eq, PartialEq, Clone, Ord, PartialOrd)]
 struct Contact {
@@ -8,7 +12,10 @@ struct Contact {
 
 impl Contact {
     pub fn new(name: &str, email: &str) -> Contact {
-        Contact { name: name.to_string(), email: email.to_string() }
+        Contact {
+            name: name.to_string(),
+            email: email.to_string(),
+        }
     }
 }
 
@@ -28,17 +35,22 @@ struct MyAddressBook {
 
 impl AddressBook for MyAddressBook {
     fn new() -> Self {
-        MyAddressBook { email_map: BTreeMap::new(), name_map: BTreeMap::new() }
+        MyAddressBook {
+            email_map: BTreeMap::new(),
+            name_map: BTreeMap::new(),
+        }
     }
-    fn insert(&mut self, contact: Contact) -> bool {
-        if self.name_map.contains_key(&contact.name) {
-            false
-        } else if self.email_map.contains_key(&contact.email) {
-            false
+    fn insert(&mut self, c: Contact) -> bool {
+        if let Vacant(e1) = self.name_map.entry(c.name.clone()) {
+            if let Vacant(e2) = self.email_map.entry(c.name.clone()) {
+                e1.insert(c.clone());
+                e2.insert(c);
+                true
+            } else {
+                false
+            }
         } else {
-            assert_eq!(self.name_map.insert(contact.name.clone(), contact.clone()), None);
-            assert_eq!(self.email_map.insert(contact.email.clone(), contact), None);
-            true
+            false
         }
     }
     fn find_by_name(&self, name: &str) -> Option<&Contact> {
@@ -47,16 +59,18 @@ impl AddressBook for MyAddressBook {
     fn find_by_email(&self, email: &str) -> Option<&Contact> {
         self.email_map.get(email)
     }
-    fn find_next(&self, _: &Contact) -> Option<&Contact> {
-        // BTreeMap.range is unstable in rust stable channel. Just skip it. :)
-        // self.name_map.range(Excluded::<&str>(&c.name), Unbounded).next().map(|e| e.1)
-        unimplemented!();
+    fn find_next(&self, c: &Contact) -> Option<&Contact> {
+        self.name_map.range(Excluded(&c.name), Unbounded::<&str>).next().map(|(_, v)| v)
     }
     fn delete(&mut self, c: &Contact) -> bool {
-        if self.name_map.contains_key(&c.name) && self.email_map.contains_key(&c.email) {
-            self.name_map.remove(&c.name);
-            self.email_map.remove(&c.email);
-            true
+        if let Occupied(e1) = self.name_map.entry(c.name.clone()) {
+            if let Occupied(e2) = self.email_map.entry(c.name.clone()) {
+                e1.remove();
+                e2.remove();
+                true
+            } else {
+                false
+            }
         } else {
             false
         }
@@ -69,18 +83,27 @@ mod tests {
 
     fn insert_test<T: AddressBook>() {
         let mut book = T::new();
-	assert!(book.find_by_name("hello").is_none());
-	assert!(book.insert(Contact::new("hello", "world@mail.com")));
-	assert!(!book.insert(Contact::new("hello", "world@mail.com")));
+        assert!(book.find_next(&Contact::new("a", "world@mail.com")).is_none());
+
+        assert!(book.find_by_name("hello").is_none());
+        assert!(book.insert(Contact::new("hello", "world@mail.com")));
+        assert!(!book.insert(Contact::new("hello", "world@mail.com")));
+
+        assert_eq!(book.find_next(&Contact::new("a", "world@mail.com")).unwrap(),
+                   &Contact::new("hello", "world@mail.com"));
+        assert!(book.find_next(&Contact::new("z", "world@mail.com")).is_none());
+
         {
-	    let contact = book.find_by_name("hello");
-	    assert!(contact.is_some());
-	    assert_eq!(contact.unwrap().name, "hello");
-	    assert_eq!(contact.unwrap().email, "world@mail.com");
+            let contact = book.find_by_name("hello");
+            assert!(contact.is_some());
+            assert_eq!(contact.unwrap().name, "hello");
+            assert_eq!(contact.unwrap().email, "world@mail.com");
         }
-	assert!(book.delete(&Contact::new("hello", "world@mail.com")));
-	// assert!(book.find_by_name("hello").is_none());
+        assert!(book.delete(&Contact::new("hello", "world@mail.com")));
+        assert!(book.find_by_name("hello").is_none());
     }
+
+    // TODO(hayato): Write other tests.
 
     #[test]
     fn test() {
